@@ -1,6 +1,7 @@
 package si.uni_lj.fri.pbd.miniapp3.models;
 
 import si.uni_lj.fri.pbd.miniapp3.database.entity.RecipeDetails;
+import si.uni_lj.fri.pbd.miniapp3.models.dto.RecipeDetailsDTO;
 
 public final class Mapper {
 
@@ -9,7 +10,7 @@ public final class Mapper {
     }
 
     // TODO: Uncomment the code below
-/*
+
     public static RecipeDetails mapRecipeDetailsDtoToRecipeDetails(Boolean isFavorite, RecipeDetailsDTO dto) {
         return new RecipeDetails(
                 isFavorite,
@@ -113,7 +114,7 @@ public final class Mapper {
                 dto.getStrMeasure19(),
                 dto.getStrMeasure20(),
                 dto.getStrSource());
-    }*/
+    }
 
     public static RecipeDetailsIM mapRecipeDetailsToRecipeDetailsIm(Boolean isFavorite, RecipeDetails dto) {
         return new RecipeDetailsIM(
