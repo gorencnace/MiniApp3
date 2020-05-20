@@ -24,8 +24,8 @@ public class SpinnerAdapter extends BaseAdapter {
     private SearchFragment context;
     private LayoutInflater inflater;
 
-    public SpinnerAdapter(SearchFragment context, MutableLiveData<List<IngredientDTO>> ingredients) {
-        this.ingredients = ingredients.getValue();
+    public SpinnerAdapter(SearchFragment context, List<IngredientDTO> ingredients) {
+        this.ingredients = ingredients;
         this.context = context;
     }
 

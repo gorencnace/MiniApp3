@@ -18,6 +18,6 @@ public interface RecipeDao {
 
     // TODO: Add the missing methods
     @Query("SELECT * FROM RecipeDetails WHERE isFavorite = 1")
-    MutableLiveData<List<RecipeDetails>> getFavoriteRecipes();
+    LiveData<List<RecipeDetails>> getFavoriteRecipes();
 
 }

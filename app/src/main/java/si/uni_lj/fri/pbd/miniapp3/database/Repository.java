@@ -16,10 +16,12 @@ import retrofit2.Response;
 import si.uni_lj.fri.pbd.miniapp3.database.dao.RecipeDao;
 import si.uni_lj.fri.pbd.miniapp3.database.entity.RecipeDetails;
 import si.uni_lj.fri.pbd.miniapp3.models.Mapper;
+import si.uni_lj.fri.pbd.miniapp3.models.RecipeDetailsIM;
 import si.uni_lj.fri.pbd.miniapp3.models.RecipeSummaryIM;
 import si.uni_lj.fri.pbd.miniapp3.models.dto.IngredientDTO;
 import si.uni_lj.fri.pbd.miniapp3.models.dto.IngredientsDTO;
 import si.uni_lj.fri.pbd.miniapp3.models.dto.RecipeDetailsDTO;
+import si.uni_lj.fri.pbd.miniapp3.models.dto.RecipesByIdDTO;
 import si.uni_lj.fri.pbd.miniapp3.models.dto.RecipesByIngredientDTO;
 import si.uni_lj.fri.pbd.miniapp3.rest.RestAPI;
 import si.uni_lj.fri.pbd.miniapp3.rest.ServiceGenerator;
@@ -62,12 +64,16 @@ public class Repository {
             mRestClient.getRecipesByIngredient(ingredient).enqueue(new Callback<RecipesByIngredientDTO>() {
                 @Override
                 public void onResponse(Call<RecipesByIngredientDTO> call, Response<RecipesByIngredientDTO> response) {
-                    List<RecipeSummaryIM> tmp = new ArrayList<>();
-                    assert response.body() != null;
-                    for (RecipeDetailsDTO rdDTO : response.body().getRecipesByIngredient()) {
-                        tmp.add(Mapper.mapRecipeDetailsToRecipeSummaryIm(Mapper.mapRecipeDetailsDtoToRecipeDetails(false, rdDTO)));
+                    if (response.isSuccessful()) {
+                        List<RecipeSummaryIM> tmp = new ArrayList<>();
+                        assert response.body() != null;
+                        for (RecipeDetailsDTO rdDTO : response.body().getRecipesByIngredient()) {
+                            tmp.add(Mapper.mapRecipeDetailsToRecipeSummaryIm(Mapper.mapRecipeDetailsDtoToRecipeDetails(false, rdDTO)));
+                        }
+                        recipeSummaries.setValue(tmp);
+                    } else {
+                        recipeSummaries.setValue(null);
                     }
-                    recipeSummaries.setValue(tmp);
                 }
 
                 @Override
@@ -83,5 +89,27 @@ public class Repository {
             recipeSummaries.setValue(tmp);
         }
         return recipeSummaries;
+    }
+
+    public MutableLiveData<RecipeDetailsIM> getRecipeDetails(String recipeId) {
+        MutableLiveData<RecipeDetailsIM> returnRecipe = new MutableLiveData<>();
+        RecipeDetails rd = recipeDao.getRecipeById(recipeId);
+        if (rd != null) {
+            returnRecipe.setValue(Mapper.mapRecipeDetailsToRecipeDetailsIm(rd.getFavorite(), rd));
+        } else {
+            mRestClient.getRecipesById(recipeId).enqueue(new Callback<RecipesByIdDTO>() {
+                @Override
+                public void onResponse(Call<RecipesByIdDTO> call, Response<RecipesByIdDTO> response) {
+                    assert response.body() != null;
+                    returnRecipe.setValue(Mapper.mapRecipeDetailsDtoToRecipeDetailsIm(false, response.body().getRecipesById().get(0)));
+                }
+
+                @Override
+                public void onFailure(Call<RecipesByIdDTO> call, Throwable t) {
+                    returnRecipe.setValue(null);
+                }
+            });
+        }
+        return returnRecipe;
     }
 }

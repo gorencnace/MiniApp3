@@ -10,7 +10,7 @@ public class RecipesByIdDTO {
     @Expose
     private List<RecipeDetailsDTO> recipes;
 
-    public List<RecipeDetailsDTO> getRecipesById(String id) {
+    public List<RecipeDetailsDTO> getRecipesById() {
         return recipes;
     }
 }

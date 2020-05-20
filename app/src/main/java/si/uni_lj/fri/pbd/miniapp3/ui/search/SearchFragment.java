@@ -22,6 +22,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import si.uni_lj.fri.pbd.miniapp3.R;
 import si.uni_lj.fri.pbd.miniapp3.adapter.RecyclerViewAdapter;
 import si.uni_lj.fri.pbd.miniapp3.adapter.SpinnerAdapter;
+import si.uni_lj.fri.pbd.miniapp3.models.RecipeSummaryIM;
 import si.uni_lj.fri.pbd.miniapp3.models.dto.IngredientDTO;
 import si.uni_lj.fri.pbd.miniapp3.ui.RecipeViewModel;
 
@@ -43,31 +44,34 @@ public class SearchFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(RecipeViewModel.class);
         progressBar = (MaterialProgressBar) view.findViewById(R.id.progress_bar_search_fragment);
         Log.d("SEARCH FRAGMENT","mViewModel created");
-        observerSetup(view);
-        //recyclerViewSetup(view);
-        //spinnerSetup(view);
-    }
 
-    private void observerSetup(View view) {
+        // cakamo na rezultate apija in pol šele kličemo funkcijo spinnerSetup
         mViewModel.getAllIngredients().observe(getViewLifecycleOwner(), new Observer<List<IngredientDTO>>() {
             @Override
             public void onChanged(List<IngredientDTO> ingredientDTOS) {
-                spinnerSetup(view);
+                spinnerSetup(ingredientDTOS);
             }
         });
     }
 
-    private void spinnerSetup(View view) {
-        // spinner first try:
-        Spinner spinnerIngredients = (Spinner) view.findViewById(R.id.spinner_search_fragment);
+    private void spinnerSetup(List<IngredientDTO> ingredientDTOS) {
+        Spinner spinnerIngredients = (Spinner) getView().findViewById(R.id.spinner_search_fragment);
         progressBar.setVisibility(MaterialProgressBar.INVISIBLE);
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this, mViewModel.getAllIngredients());
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this, ingredientDTOS);
         spinnerIngredients.setAdapter(spinnerAdapter);
 
+        // ko kliknem na ingredient se recepti naložijo
         spinnerIngredients.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                recyclerViewSetup(view, ((IngredientDTO) spinnerAdapter.getItem(position)).getStrIngredient());
+                progressBar.setVisibility(MaterialProgressBar.VISIBLE);
+                mViewModel.getRecipeSummaries(true, ((IngredientDTO) spinnerAdapter.getItem(position)).getStrIngredient()).observe(getViewLifecycleOwner(), new Observer<List<RecipeSummaryIM>>() {
+                    @Override
+                    public void onChanged(List<RecipeSummaryIM> recipeSummaryIMS) {
+                        progressBar.setVisibility(MaterialProgressBar.INVISIBLE);
+                        recyclerViewSetup(recipeSummaryIMS);
+                    }
+                });
             }
 
             @Override
@@ -77,12 +81,9 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void recyclerViewSetup(View view, String ingredient) {
-        progressBar.setVisibility(MaterialProgressBar.VISIBLE);
+    private void recyclerViewSetup(List<RecipeSummaryIM> recipeSummaryIMS) {
+        RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_search_fragment);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_search_fragment);
-
-        // TODO: https://developer.android.com/guide/topics/ui/layout/recyclerview
         // to improve performance because we know that changes in content  do not change the layout size of RecyclerView
         recyclerView.setHasFixedSize(true);
         // using a grid layout manager
@@ -90,7 +91,7 @@ public class SearchFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(mViewModel.getRecipeSummaries(true, ingredient));
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this.getContext(), recipeSummaryIMS);
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 }

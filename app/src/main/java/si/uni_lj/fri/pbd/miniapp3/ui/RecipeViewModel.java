@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import si.uni_lj.fri.pbd.miniapp3.database.Repository;
+import si.uni_lj.fri.pbd.miniapp3.models.RecipeDetailsIM;
 import si.uni_lj.fri.pbd.miniapp3.models.RecipeSummaryIM;
 import si.uni_lj.fri.pbd.miniapp3.models.dto.IngredientDTO;
 
@@ -28,5 +29,9 @@ public class RecipeViewModel extends AndroidViewModel {
 
     public MutableLiveData<List<RecipeSummaryIM>> getRecipeSummaries(boolean fromAPI, String ingredient) {
         return repository.getRecipeSummaries(fromAPI, ingredient);
+    }
+
+    public MutableLiveData<RecipeDetailsIM> getRecipeDetailsById(String id) {
+        return repository.getRecipeDetails(id);
     }
 }

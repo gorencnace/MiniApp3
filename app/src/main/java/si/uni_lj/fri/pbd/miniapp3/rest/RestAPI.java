@@ -3,6 +3,7 @@ package si.uni_lj.fri.pbd.miniapp3.rest;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import si.uni_lj.fri.pbd.miniapp3.models.dto.IngredientsDTO;
 import si.uni_lj.fri.pbd.miniapp3.models.dto.RecipesByIdDTO;
 import si.uni_lj.fri.pbd.miniapp3.models.dto.RecipesByIngredientDTO;
@@ -13,10 +14,10 @@ public interface RestAPI {
     Call<IngredientsDTO> getAllIngredients();
 
     // TODO: Add missing endpoints
-    @GET("lookup.php?i={recipeId}")
-    Call<RecipesByIdDTO> getRecipesById(@Path("recipeId") String recipeId);
+    @GET("lookup.php")
+    Call<RecipesByIdDTO> getRecipesById(@Query("i") String recipeId);
 
-    @GET("filter.php?i={ingredient}")
-    Call<RecipesByIngredientDTO> getRecipesByIngredient(@Path("ingredient") String ingredient);
+    @GET("filter.php")
+    Call<RecipesByIngredientDTO> getRecipesByIngredient(@Query("i") String ingredient);
 
 }
