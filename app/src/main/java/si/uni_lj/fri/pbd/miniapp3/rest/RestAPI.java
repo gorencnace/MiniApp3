@@ -1,5 +1,7 @@
 package si.uni_lj.fri.pbd.miniapp3.rest;
 
+import androidx.lifecycle.LiveData;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

@@ -2,4 +2,6 @@
     <string name="app_name">MiniApp3</string>
     <string name="tab_item_favorite_recipes">FAVORITE RECIPES</string>
     <string name="app_title">Mini App 3</string>
+    <string name="error_no_recipes_for_ingredient">Sorry, no recipes for this ingredient.</string>
+    <string name="error_no_internet">Sorry, could not connect to the server. Please check your internet connection.</string>
 </resources>

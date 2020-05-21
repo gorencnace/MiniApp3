@@ -25,8 +25,12 @@
 
         <ToggleButton
             android:id="@+id/details_favorite_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="right"
+            android:textOn=""
+            android:textOff=""
+            android:background="@drawable/star"/>
 
         <TextView
             android:id="@+id/details_ingredient_list"

@@ -1,5 +1,7 @@
 package si.uni_lj.fri.pbd.miniapp3.models;
 
+import androidx.annotation.Nullable;
+
 public class RecipeDetailsIM {
 
     private Boolean isFavorite;
@@ -370,4 +372,57 @@ public class RecipeDetailsIM {
                 '}';
     }
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null) return false;
+        RecipeDetailsIM rd = (RecipeDetailsIM) obj;
+        return  this.idMeal.equals(rd.idMeal) &&
+                this.strMeal.equals(rd.strMeal) &&
+                this.strArea.equals(rd.strArea) &&
+                this.strCategory.equals(rd.strCategory) &&
+                this.strMealThumb.equals(rd.strMealThumb) &&
+                this.strYoutube.equals(rd.strYoutube) &&
+                this.strInstructions.equals(rd.strInstructions) &&
+                this.strIngredient1.equals(rd.strIngredient1) &&
+                this.strIngredient2.equals(rd.strIngredient2) &&
+                this.strIngredient3.equals(rd.strIngredient3) &&
+                this.strIngredient4.equals(rd.strIngredient4) &&
+                this.strIngredient5.equals(rd.strIngredient5) &&
+                this.strIngredient6.equals(rd.strIngredient6) &&
+                this.strIngredient7.equals(rd.strIngredient7) &&
+                this.strIngredient8.equals(rd.strIngredient8) &&
+                this.strIngredient9.equals(rd.strIngredient9) &&
+                this.strIngredient10.equals(rd.strIngredient10) &&
+                this.strIngredient11.equals(rd.strIngredient11) &&
+                this.strIngredient12.equals(rd.strIngredient12) &&
+                this.strIngredient13.equals(rd.strIngredient13) &&
+                this.strIngredient14.equals(rd.strIngredient14) &&
+                this.strIngredient15.equals(rd.strIngredient15) &&
+                this.strIngredient16.equals(rd.strIngredient16) &&
+                this.strIngredient17.equals(rd.strIngredient17) &&
+                this.strIngredient18.equals(rd.strIngredient19) &&
+                this.strIngredient19.equals(rd.strIngredient18) &&
+                this.strIngredient20.equals(rd.strIngredient20) &&
+                this.strMeasure1.equals(rd.strMeasure1) &&
+                this.strMeasure2.equals(rd.strMeasure2) &&
+                this.strMeasure3.equals(rd.strMeasure3) &&
+                this.strMeasure4.equals(rd.strMeasure4) &&
+                this.strMeasure5.equals(rd.strMeasure5) &&
+                this.strMeasure6.equals(rd.strMeasure6) &&
+                this.strMeasure7.equals(rd.strMeasure7) &&
+                this.strMeasure8.equals(rd.strMeasure8) &&
+                this.strMeasure9.equals(rd.strMeasure9) &&
+                this.strMeasure10.equals(rd.strMeasure10) &&
+                this.strMeasure11.equals(rd.strMeasure11) &&
+                this.strMeasure12.equals(rd.strMeasure12) &&
+                this.strMeasure13.equals(rd.strMeasure13) &&
+                this.strMeasure14.equals(rd.strMeasure14) &&
+                this.strMeasure15.equals(rd.strMeasure15) &&
+                this.strMeasure16.equals(rd.strMeasure16) &&
+                this.strMeasure17.equals(rd.strMeasure17) &&
+                this.strMeasure18.equals(rd.strMeasure18) &&
+                this.strMeasure19.equals(rd.strMeasure19) &&
+                this.strMeasure20.equals(rd.strMeasure20) &&
+                this.strSource.equals(rd.strSource);
+    }
 }

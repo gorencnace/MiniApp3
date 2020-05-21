@@ -116,9 +116,9 @@ public final class Mapper {
                 dto.getStrSource());
     }
 
-    public static RecipeDetailsIM mapRecipeDetailsToRecipeDetailsIm(Boolean isFavorite, RecipeDetails dto) {
+    public static RecipeDetailsIM mapRecipeDetailsToRecipeDetailsIm(RecipeDetails dto) {
         return new RecipeDetailsIM(
-                isFavorite,
+                dto.getFavorite(),
                 dto.getIdMeal(),
                 dto.getStrMeal(),
                 dto.getStrCategory(),
@@ -169,4 +169,56 @@ public final class Mapper {
                 dto.getStrSource());
     }
 
+    public static RecipeDetails mapRecipeDetailsIMToRecipeDetails(RecipeDetailsIM dto) {
+        return new RecipeDetails(
+                dto.getFavorite(),
+                dto.getIdMeal(),
+                dto.getStrMeal(),
+                dto.getStrCategory(),
+                dto.getStrArea(),
+                dto.getStrInstructions(),
+                dto.getStrMealThumb(),
+                dto.getStrYoutube(),
+                dto.getStrIngredient1(),
+                dto.getStrIngredient2(),
+                dto.getStrIngredient3(),
+                dto.getStrIngredient4(),
+                dto.getStrIngredient5(),
+                dto.getStrIngredient6(),
+                dto.getStrIngredient7(),
+                dto.getStrIngredient8(),
+                dto.getStrIngredient9(),
+                dto.getStrIngredient10(),
+                dto.getStrIngredient11(),
+                dto.getStrIngredient12(),
+                dto.getStrIngredient13(),
+                dto.getStrIngredient14(),
+                dto.getStrIngredient15(),
+                dto.getStrIngredient16(),
+                dto.getStrIngredient17(),
+                dto.getStrIngredient18(),
+                dto.getStrIngredient19(),
+                dto.getStrIngredient20(),
+                dto.getStrMeasure1(),
+                dto.getStrMeasure2(),
+                dto.getStrMeasure3(),
+                dto.getStrMeasure4(),
+                dto.getStrMeasure5(),
+                dto.getStrMeasure6(),
+                dto.getStrMeasure7(),
+                dto.getStrMeasure8(),
+                dto.getStrMeasure9(),
+                dto.getStrMeasure10(),
+                dto.getStrMeasure11(),
+                dto.getStrMeasure12(),
+                dto.getStrMeasure13(),
+                dto.getStrMeasure14(),
+                dto.getStrMeasure15(),
+                dto.getStrMeasure16(),
+                dto.getStrMeasure17(),
+                dto.getStrMeasure18(),
+                dto.getStrMeasure19(),
+                dto.getStrMeasure20(),
+                dto.getStrSource());
+    }
 }

@@ -20,4 +20,13 @@ public interface RecipeDao {
     @Query("SELECT * FROM RecipeDetails WHERE isFavorite = 1")
     LiveData<List<RecipeDetails>> getFavoriteRecipes();
 
+    @Insert
+    void insertRecipe(RecipeDetails recipeDetails);
+
+    @Query("DELETE FROM RecipeDetails WHERE idMeal = :idMeal")
+    void deleteRecipe(String idMeal);
+
+    @Query("SELECT * FROM RecipeDetails WHERE isFavorite = 1 AND idMeal = :idMeal")
+    RecipeDetails getFavoriteRecipeById(String idMeal);
+
 }

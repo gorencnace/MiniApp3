@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import butterknife.internal.ListenerClass;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,32 +31,16 @@ import timber.log.Timber;
 public class Repository {
     private RestAPI mRestClient;
     private RecipeDao recipeDao;
+    private LiveData<List<RecipeDetails>> favorites;
 
     public Repository(Application application) {
         Database db = Database.getDatabase(application);
         recipeDao = db.recipeDao();
         mRestClient = ServiceGenerator.createService(RestAPI.class);
+        favorites = recipeDao.getFavoriteRecipes();
     }
 
     // https://medium.com/@amtechnovation/android-architecture-component-mvvm-part-1-a2e7cff07a76
-    public MutableLiveData<List<IngredientDTO>> getAllIngredients() {
-        MutableLiveData<List<IngredientDTO>> allIngredients = new MutableLiveData<>();
-        mRestClient.getAllIngredients().enqueue(new Callback<IngredientsDTO>() {
-            @Override
-            public void onResponse(Call<IngredientsDTO> call, Response<IngredientsDTO> response) {
-                if (response.isSuccessful()) {
-                    allIngredients.setValue(response.body().getIngredients());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<IngredientsDTO> call, Throwable t) {
-                allIngredients.setValue(null);
-                Timber.d("failed to connect");
-            }
-        });
-        return allIngredients;
-    }
 
     // recipe summaries from api and database
     public MutableLiveData<List<RecipeSummaryIM>> getRecipeSummaries(boolean fromAPI, String ingredient) {
@@ -66,9 +51,12 @@ public class Repository {
                 public void onResponse(Call<RecipesByIngredientDTO> call, Response<RecipesByIngredientDTO> response) {
                     if (response.isSuccessful()) {
                         List<RecipeSummaryIM> tmp = new ArrayList<>();
-                        assert response.body() != null;
-                        for (RecipeDetailsDTO rdDTO : response.body().getRecipesByIngredient()) {
-                            tmp.add(Mapper.mapRecipeDetailsToRecipeSummaryIm(Mapper.mapRecipeDetailsDtoToRecipeDetails(false, rdDTO)));
+                        if (response.body().getRecipesByIngredient() == null) {
+                            recipeSummaries.setValue(null);
+                        } else {
+                            for (RecipeDetailsDTO rdDTO : response.body().getRecipesByIngredient()) {
+                                tmp.add(Mapper.mapRecipeDetailsToRecipeSummaryIm(Mapper.mapRecipeDetailsDtoToRecipeDetails(false, rdDTO)));
+                            }
                         }
                         recipeSummaries.setValue(tmp);
                     } else {
@@ -83,7 +71,7 @@ public class Repository {
             });
         } else {
             List<RecipeSummaryIM> tmp = new ArrayList<>();
-            for (RecipeDetails rd : Objects.requireNonNull(recipeDao.getFavoriteRecipes().getValue())) {
+            for (RecipeDetails rd : Objects.requireNonNull(favorites.getValue())) {
                 tmp.add(Mapper.mapRecipeDetailsToRecipeSummaryIm(rd));
             }
             recipeSummaries.setValue(tmp);
@@ -91,17 +79,31 @@ public class Repository {
         return recipeSummaries;
     }
 
-    public MutableLiveData<RecipeDetailsIM> getRecipeDetails(String recipeId) {
+    public MutableLiveData<RecipeDetailsIM> getRecipeDetails(String recipeId, boolean fromAPI) {
         MutableLiveData<RecipeDetailsIM> returnRecipe = new MutableLiveData<>();
-        RecipeDetails rd = recipeDao.getRecipeById(recipeId);
-        if (rd != null) {
-            returnRecipe.setValue(Mapper.mapRecipeDetailsToRecipeDetailsIm(rd.getFavorite(), rd));
+        if (!fromAPI) {
+            returnRecipe.setValue(Mapper.mapRecipeDetailsToRecipeDetailsIm(recipeDao.getRecipeById(recipeId)));
         } else {
+            RecipeDetails rd = recipeDao.getRecipeById(recipeId);
             mRestClient.getRecipesById(recipeId).enqueue(new Callback<RecipesByIdDTO>() {
                 @Override
                 public void onResponse(Call<RecipesByIdDTO> call, Response<RecipesByIdDTO> response) {
                     assert response.body() != null;
-                    returnRecipe.setValue(Mapper.mapRecipeDetailsDtoToRecipeDetailsIm(false, response.body().getRecipesById().get(0)));
+                    RecipeDetailsIM recipe = Mapper.mapRecipeDetailsDtoToRecipeDetailsIm(true, response.body().getRecipesById().get(0));
+                    String check = checkForFavorites(recipe, rd);
+                    switch (check) {
+                        case "IN DB OK":
+                            returnRecipe.setValue(Mapper.mapRecipeDetailsToRecipeDetailsIm(rd));
+                            break;
+                        case "IN DB NOT OK":
+                            deleteRecipe(recipeId);
+                            insertRecipe(recipe);
+                            returnRecipe.setValue(Mapper.mapRecipeDetailsToRecipeDetailsIm(rd));
+                            break;
+                        default:
+                            returnRecipe.setValue(Mapper.mapRecipeDetailsDtoToRecipeDetailsIm(false, response.body().getRecipesById().get(0)));
+                            break;
+                    }
                 }
 
                 @Override
@@ -111,5 +113,29 @@ public class Repository {
             });
         }
         return returnRecipe;
+    }
+
+    private String checkForFavorites(RecipeDetailsIM recipe, RecipeDetails rd) {
+        if (rd != null) {
+            if (recipe.equals(Mapper.mapRecipeDetailsToRecipeDetailsIm(rd))) {
+                return "IN DB OK";
+            } else {
+                return "IN DB NOT OK";
+            }
+        }
+        return "NOT IN DB";
+    }
+
+    public void insertRecipe(RecipeDetailsIM recipeDetailsIM) {
+        RecipeDetails recipeDetails = Mapper.mapRecipeDetailsIMToRecipeDetails(recipeDetailsIM);
+        recipeDao.insertRecipe(recipeDetails);
+    }
+
+    public void deleteRecipe(String idMeal) {
+        recipeDao.deleteRecipe(idMeal);
+    }
+
+    public LiveData<List<RecipeDetails>> getFavorites() {
+        return favorites;
     }
 }

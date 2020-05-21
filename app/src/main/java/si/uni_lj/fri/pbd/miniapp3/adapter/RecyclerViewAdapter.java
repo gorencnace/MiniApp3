@@ -2,16 +2,17 @@ package si.uni_lj.fri.pbd.miniapp3.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +20,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import si.uni_lj.fri.pbd.miniapp3.R;
+import si.uni_lj.fri.pbd.miniapp3.database.entity.RecipeDetails;
 import si.uni_lj.fri.pbd.miniapp3.models.RecipeSummaryIM;
 import si.uni_lj.fri.pbd.miniapp3.ui.DetailsActivity;
 
@@ -28,10 +30,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<RecipeSummaryIM> recipeSummaries;
     private Context mContext;
+    private boolean fromAPI;
 
-    public RecyclerViewAdapter(Context mContext, List<RecipeSummaryIM> recipeSummaryIMS) {
+    public RecyclerViewAdapter(Context mContext, List<RecipeSummaryIM> recipeSummaryIMS, boolean fromAPI) {
         this.recipeSummaries = recipeSummaryIMS;
         this.mContext = mContext;
+        this.fromAPI = fromAPI;
     }
 
     @Override
@@ -49,9 +53,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, DetailsActivity.class);
-                intent.putExtra("recipeId", recipeSummary.getIdMeal());
-                mContext.startActivity(intent);
+                if (!fromAPI || isNetworkAvailable()) {
+                    Intent intent = new Intent(mContext, DetailsActivity.class);
+                    intent.putExtra("recipeId", recipeSummary.getIdMeal());
+                    intent.putExtra("fromAPI", fromAPI);
+                    mContext.startActivity(intent);
+                } else {
+                    Toast.makeText(mContext, R.string.error_no_internet, Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -81,5 +90,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             this.mealName.setText(mealName);
         }
 
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
