@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import si.uni_lj.fri.pbd.miniapp3.R;
@@ -51,6 +53,13 @@ public class FavoritesFragment extends Fragment {
         for (RecipeDetails rd : recipeDetailsList) {
             recipeSummaryIMS.add(Mapper.mapRecipeDetailsToRecipeSummaryIm(rd));
         }
+
+        Collections.sort(recipeSummaryIMS, new Comparator<RecipeSummaryIM>() {
+            @Override
+            public int compare(RecipeSummaryIM o1, RecipeSummaryIM o2) {
+                return o1.getStrMeal().compareTo(o2.getStrMeal());
+            }
+        });
 
         RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_favorites_fragment);
 
