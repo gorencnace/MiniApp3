@@ -1,12 +1,11 @@
 package si.uni_lj.fri.pbd.miniapp3.rest;
 
-import org.jetbrains.annotations.NotNull;
+/*
+ * SERVICE GENERATOR
+ * Helper class.
+ */
 
-import java.io.IOException;
-
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,6 +14,7 @@ import timber.log.Timber;
 
 public class ServiceGenerator {
 
+    // FIELDS
     private static Retrofit.Builder sBuilder;
     private static OkHttpClient.Builder sHttpClient;
     private static Retrofit sRetrofit;
@@ -25,10 +25,8 @@ public class ServiceGenerator {
 
     private static void init() {
         sHttpClient = new OkHttpClient.Builder();
-        sBuilder = new Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create()); // TODO: add converter
+        sBuilder = new Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create());
 
-        // TODO: create Interceptor and add it to client
-        // https://stackoverflow.com/questions/32514410/logging-with-retrofit-2
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         sHttpClient.addInterceptor(interceptor);

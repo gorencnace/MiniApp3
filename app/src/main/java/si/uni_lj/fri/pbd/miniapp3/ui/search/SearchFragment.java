@@ -1,19 +1,22 @@
 package si.uni_lj.fri.pbd.miniapp3.ui.search;
 
+/*
+ * SEARCH FRAGMENT
+ *
+ * This fragment allows user to select ingredient for which we search the recipe for.
+ *
+ */
+
 import android.content.Context;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -22,11 +25,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import org.w3c.dom.Text;
-
 import java.util.List;
-
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,11 +42,11 @@ import si.uni_lj.fri.pbd.miniapp3.ui.RecipeViewModel;
 
 public class SearchFragment extends Fragment {
 
+    // FIELDS
     private RecipeViewModel mViewModel;
     private MaterialProgressBar progressBar;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
-
     private long startTime;
     private boolean networkErrorOnStart;
     RestAPI mRestClient;
@@ -65,25 +64,29 @@ public class SearchFragment extends Fragment {
         progressBar = (MaterialProgressBar) getView().findViewById(R.id.progress_bar_search_fragment);
         swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_layout_search_fragment);
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_search_fragment);
-
         mRestClient = ServiceGenerator.createService(RestAPI.class);
 
         fetchIngredients();
     }
 
+    // Here we try to fetch ingredients
     private void fetchIngredients() {
         networkErrorOnStart = isNetworkAvailable();
+        // we get ingredients with direct api call
         mRestClient.getAllIngredients().enqueue(new Callback<IngredientsDTO>() {
             @Override
             public void onResponse(Call<IngredientsDTO> call, Response<IngredientsDTO> response) {
                 if (response.isSuccessful()) {
+                    // if it is successful we crate spinner
                     spinnerSetup(response.body().getIngredients());
                 }
             }
 
             @Override
             public void onFailure(Call<IngredientsDTO> call, Throwable t) {
+                // else we toast an error
                 Toast.makeText(getContext(), R.string.error_no_internet, Toast.LENGTH_LONG).show();
+                // and enable user to connect to the network and try to get ingredients again with swipe
                 swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
@@ -95,19 +98,22 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    // Here we set up spinner
     private void spinnerSetup(List<IngredientDTO> ingredientDTOS) {
         Spinner spinnerIngredients = (Spinner) getView().findViewById(R.id.spinner_search_fragment);
         progressBar.setVisibility(MaterialProgressBar.INVISIBLE);
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this, ingredientDTOS);
         spinnerIngredients.setAdapter(spinnerAdapter);
 
-        // ko kliknem na ingredient se recepti naložijo
+        // when we select an ingredient we show recipes for it
         spinnerIngredients.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 progressBar.setVisibility(MaterialProgressBar.VISIBLE);
+                // we set recipes in adapter
                 setRecipeSummaries(spinnerAdapter, position);
                 startTime = System.currentTimeMillis();
+                // we setup swipe refresher to refresh recipes (we can refresh it every 5 seconds)
                 swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
@@ -124,11 +130,12 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                // well... it always selects something
             }
         });
     }
 
+    // We set up recipes here.
     private void setRecipeSummaries(SpinnerAdapter spinnerAdapter, int position) {
         mViewModel.getRecipeSummaries(true, ((IngredientDTO) spinnerAdapter.getItem(position)).getStrIngredient()).observe(getViewLifecycleOwner(), new Observer<List<RecipeSummaryIM>>() {
             @Override
@@ -156,6 +163,7 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
+    // we check if network is available
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

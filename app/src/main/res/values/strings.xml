@@ -7,4 +7,6 @@
     <string name="ingredients_title">Ingredients</string>
     <string name="method">Method</string>
     <string name="desc_uni_logo">uni_logo</string>
+    <string name="search_tab">SEARCH FOR RECIPE</string>
+    <string name="favorite_tab">FAVORITE RECIPES</string>
 </resources>

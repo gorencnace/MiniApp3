@@ -1,20 +1,20 @@
 package si.uni_lj.fri.pbd.miniapp3.ui;
+/*
+ * MAIN ACTIVITY
+ *
+ * Main Activity sets up Toolbar.
+ */
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
-
 import android.os.Bundle;
-import android.util.Log;
-
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
 import si.uni_lj.fri.pbd.miniapp3.Constants;
 import si.uni_lj.fri.pbd.miniapp3.R;
 import si.uni_lj.fri.pbd.miniapp3.adapter.SectionsPagerAdapter;
-import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         configureTabLayout();
     }
 
+    // toolbar setup (from lab4)
     private void configureTabLayout() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         ViewPager2 viewPager = (ViewPager2) findViewById(R.id.viewpager);
@@ -38,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                         switch(position) {
                             case 0:
-                                tab.setText("SEARCH FOR RECIPE");
+                                tab.setText(R.string.search_tab);
                                 break;
                             case 1:
-                                tab.setText("FAVORITE RECIPES");
+                                tab.setText(R.string.favorite_tab);
                                 break;
                         }
                     }

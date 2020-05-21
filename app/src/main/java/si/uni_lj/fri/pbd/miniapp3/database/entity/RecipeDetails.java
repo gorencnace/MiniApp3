@@ -1,5 +1,12 @@
 package si.uni_lj.fri.pbd.miniapp3.database.entity;
 
+/*
+ * RECIPE DETAILS OBJECT
+ *
+ * An entity (table) in database.
+ *
+ */
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;

@@ -1,5 +1,9 @@
 package si.uni_lj.fri.pbd.miniapp3.models;
 
+/*
+ * MAPPER UTILITY CLASS
+ */
+
 import si.uni_lj.fri.pbd.miniapp3.database.entity.RecipeDetails;
 import si.uni_lj.fri.pbd.miniapp3.models.dto.RecipeDetailsDTO;
 
@@ -8,8 +12,6 @@ public final class Mapper {
     public static RecipeSummaryIM mapRecipeDetailsToRecipeSummaryIm(RecipeDetails rec) {
         return new RecipeSummaryIM(rec.getStrMeal(), rec.getStrMealThumb(), rec.getIdMeal());
     }
-
-    // TODO: Uncomment the code below
 
     public static RecipeDetails mapRecipeDetailsDtoToRecipeDetails(Boolean isFavorite, RecipeDetailsDTO dto) {
         return new RecipeDetails(

@@ -1,10 +1,14 @@
 package si.uni_lj.fri.pbd.miniapp3.ui.favorites;
 
+/*
+ * FAVORITES FRAGMENT
+ * Here are shown recipes tagged as favorites.
+ */
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,12 +16,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import si.uni_lj.fri.pbd.miniapp3.R;
 import si.uni_lj.fri.pbd.miniapp3.adapter.RecyclerViewAdapter;
 import si.uni_lj.fri.pbd.miniapp3.database.entity.RecipeDetails;
@@ -27,6 +29,7 @@ import si.uni_lj.fri.pbd.miniapp3.ui.RecipeViewModel;
 
 public class FavoritesFragment extends Fragment {
 
+    // FIELDS
     private RecipeViewModel mViewModel;
 
     @Nullable
@@ -39,21 +42,24 @@ public class FavoritesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(RecipeViewModel.class);
-
+        // observe any changes on favorite recipes
         mViewModel.getFavorites().observe(getViewLifecycleOwner(), new Observer<List<RecipeDetails>>() {
             @Override
             public void onChanged(List<RecipeDetails> recipeDetailsList) {
+                // if they are changed we update RecyclerView
                 recyclerViewSetup(recipeDetailsList);
             }
         });
     }
 
+    // Setts up RecycleView
     private void recyclerViewSetup(List<RecipeDetails> recipeDetailsList) {
+        // translates from RecipeDetails to RecipeDetailsIM
         List<RecipeSummaryIM> recipeSummaryIMS = new ArrayList<>();
         for (RecipeDetails rd : recipeDetailsList) {
             recipeSummaryIMS.add(Mapper.mapRecipeDetailsToRecipeSummaryIm(rd));
         }
-
+        // sorts list of recipes by name
         Collections.sort(recipeSummaryIMS, new Comparator<RecipeSummaryIM>() {
             @Override
             public int compare(RecipeSummaryIM o1, RecipeSummaryIM o2) {

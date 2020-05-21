@@ -1,33 +1,26 @@
 package si.uni_lj.fri.pbd.miniapp3.ui;
 
+/*
+ * DETAILS ACTIVITY
+ *
+ * This activity shows details of recipe.
+ */
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
 import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
-
-import java.util.List;
-
 import si.uni_lj.fri.pbd.miniapp3.R;
-import si.uni_lj.fri.pbd.miniapp3.database.entity.RecipeDetails;
 import si.uni_lj.fri.pbd.miniapp3.models.RecipeDetailsIM;
-
-// check this for button https://stackoverflow.com/questions/34980309/favourite-button-android
 
 public class DetailsActivity extends AppCompatActivity {
 
+    // FEILDS
     private ImageView image;
     private TextView name;
     private TextView origin;
@@ -51,6 +44,7 @@ public class DetailsActivity extends AppCompatActivity {
         String recipeId = getIntent().getStringExtra("recipeId");
         boolean fromAPI = getIntent().getBooleanExtra("fromAPI", true);
 
+        // fetch data from ViewModel
         mViewModel.getRecipeDetailsById(recipeId, fromAPI).observe(this, new Observer<RecipeDetailsIM>() {
             @Override
             public void onChanged(RecipeDetailsIM recipeDetailsIM) {
@@ -59,6 +53,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
+    // Here we set up the UI.
     private void recipeSetup(RecipeDetailsIM recipeDetails) {
         Glide.with(this).load(recipeDetails.getStrMealThumb()).into(this.image);
         name.setText(recipeDetails.getStrMeal());
@@ -66,15 +61,17 @@ public class DetailsActivity extends AppCompatActivity {
         ingredients.setText(ingredientsStringBuild(recipeDetails));
         recipe.setText(recipeDetails.getStrInstructions());
         setFavorite(recipeDetails.getFavorite());
-
+        // favorite button setup
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (recipeDetails.getFavorite()) {
+                    // if we don't want that recipe to be favorite anymore, we delete it from database
                     setFavorite(false);
                     recipeDetails.setFavorite(false);
                     mViewModel.deleteRecipe(recipeDetails.getIdMeal());
                 } else {
+                    // if we want to add recipe as favorite we insert it in database
                     setFavorite(true);
                     recipeDetails.setFavorite(true);
                     mViewModel.insertRecipe(recipeDetails);
@@ -83,6 +80,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
+    // favorite button layout setup
     private void setFavorite(boolean isFavorite) {
         if (isFavorite) {
             favorite.setChecked(true);
@@ -91,6 +89,7 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
+    // help method for showing ingredients and measures together
     private String ingredientsStringBuild(RecipeDetailsIM rd) {
         StringBuilder builder = new StringBuilder();
         if (rd.getStrIngredient1() != null && !rd.getStrIngredient1().equals("")) {
