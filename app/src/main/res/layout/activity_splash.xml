@@ -6,4 +6,15 @@
     android:layout_height="match_parent"
     tools:context="si.uni_lj.fri.pbd.miniapp3.ui.SplashActivity">
 
+    <ImageView
+        android:id="@+id/image_uni_logo"
+        android:layout_width="218dp"
+        android:layout_height="192dp"
+        android:src="@drawable/uni_logo"
+        android:contentDescription="@string/desc_uni_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

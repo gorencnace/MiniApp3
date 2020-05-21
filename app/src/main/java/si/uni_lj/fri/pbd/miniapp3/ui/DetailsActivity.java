@@ -32,7 +32,6 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView name;
     private TextView origin;
     private TextView ingredients;
-    private TextView measures;
     private TextView recipe;
     private ToggleButton favorite;
     private RecipeViewModel mViewModel;
@@ -46,7 +45,6 @@ public class DetailsActivity extends AppCompatActivity {
         name = (TextView) findViewById(R.id.details_recipe_name);
         origin = (TextView) findViewById(R.id.details_recipe_origin);
         ingredients = (TextView) findViewById(R.id.details_ingredient_list);
-        measures = (TextView) findViewById(R.id.details_ingredient_measures);
         recipe = (TextView) findViewById(R.id.details_recipe);
         favorite = (ToggleButton) findViewById(R.id.details_favorite_button);
 
@@ -65,8 +63,7 @@ public class DetailsActivity extends AppCompatActivity {
         Glide.with(this).load(recipeDetails.getStrMealThumb()).into(this.image);
         name.setText(recipeDetails.getStrMeal());
         origin.setText(recipeDetails.getStrArea());
-        ingredients.setText(recipeDetails.getStrIngredient1());
-        measures.setText(recipeDetails.getStrMeasure1());
+        ingredients.setText(ingredientsStringBuild(recipeDetails));
         recipe.setText(recipeDetails.getStrInstructions());
         setFavorite(recipeDetails.getFavorite());
 
@@ -86,11 +83,76 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    public void setFavorite(boolean isFavorite) {
+    private void setFavorite(boolean isFavorite) {
         if (isFavorite) {
             favorite.setChecked(true);
         } else {
             favorite.setChecked(false);
         }
+    }
+
+    private String ingredientsStringBuild(RecipeDetailsIM rd) {
+        StringBuilder builder = new StringBuilder();
+        if (rd.getStrIngredient1() != null && !rd.getStrIngredient1().equals("")) {
+            builder.append(rd.getStrIngredient1() + " (" + rd.getStrMeasure1() + ")");
+        }
+        if (rd.getStrIngredient2() != null && !rd.getStrIngredient2().equals("")) {
+            builder.append("\n" + rd.getStrIngredient2() + " (" + rd.getStrMeasure2() + ")");
+        }
+        if (rd.getStrIngredient3() != null && !rd.getStrIngredient3().equals("")) {
+            builder.append("\n" + rd.getStrIngredient3() + " (" + rd.getStrMeasure3() + ")");
+        }
+        if (rd.getStrIngredient4() != null && !rd.getStrIngredient4().equals("")) {
+            builder.append("\n" + rd.getStrIngredient4() + " (" + rd.getStrMeasure4() + ")");
+        }
+        if (rd.getStrIngredient5() != null && !rd.getStrIngredient5().equals("")) {
+            builder.append("\n" + rd.getStrIngredient5() + " (" + rd.getStrMeasure5() + ")");
+        }
+        if (rd.getStrIngredient6() != null && !rd.getStrIngredient6().equals("")) {
+            builder.append("\n" + rd.getStrIngredient6() + " (" + rd.getStrMeasure6() + ")");
+        }
+        if (rd.getStrIngredient7() != null && !rd.getStrIngredient7().equals("")) {
+            builder.append("\n" + rd.getStrIngredient7() + " (" + rd.getStrMeasure7() + ")");
+        }
+        if (rd.getStrIngredient8() != null && !rd.getStrIngredient8().equals("")) {
+            builder.append("\n" + rd.getStrIngredient8() + " (" + rd.getStrMeasure8() + ")");
+        }
+        if (rd.getStrIngredient9() != null && !rd.getStrIngredient9().equals("")) {
+            builder.append("\n" + rd.getStrIngredient9() + " (" + rd.getStrMeasure9() + ")");
+        }
+        if (rd.getStrIngredient10() != null && !rd.getStrIngredient10().equals("")) {
+            builder.append("\n" + rd.getStrIngredient10() + " (" + rd.getStrMeasure10() + ")");
+        }
+        if (rd.getStrIngredient11() != null && !rd.getStrIngredient11().equals("")) {
+            builder.append("\n" + rd.getStrIngredient11() + " (" + rd.getStrMeasure11() + ")");
+        }
+        if (rd.getStrIngredient12() != null && !rd.getStrIngredient12().equals("")) {
+            builder.append("\n" + rd.getStrIngredient12() + " (" + rd.getStrMeasure12() + ")");
+        }
+        if (rd.getStrIngredient13() != null && !rd.getStrIngredient13().equals("")) {
+            builder.append("\n" + rd.getStrIngredient13() + " (" + rd.getStrMeasure13() + ")");
+        }
+        if (rd.getStrIngredient14() != null && !rd.getStrIngredient14().equals("")) {
+            builder.append("\n" + rd.getStrIngredient14() + " (" + rd.getStrMeasure14() + ")");
+        }
+        if (rd.getStrIngredient15() != null && !rd.getStrIngredient15().equals("")) {
+            builder.append("\n" + rd.getStrIngredient15() + " (" + rd.getStrMeasure15() + ")");
+        }
+        if (rd.getStrIngredient16() != null && !rd.getStrIngredient16().equals("")) {
+            builder.append("\n" + rd.getStrIngredient16() + " (" + rd.getStrMeasure16() + ")");
+        }
+        if (rd.getStrIngredient17() != null && !rd.getStrIngredient17().equals("")) {
+            builder.append("\n" + rd.getStrIngredient17() + " (" + rd.getStrMeasure17() + ")");
+        }
+        if (rd.getStrIngredient18() != null && !rd.getStrIngredient18().equals("")) {
+            builder.append("\n" + rd.getStrIngredient18() + " (" + rd.getStrMeasure18() + ")");
+        }
+        if (rd.getStrIngredient19() != null && !rd.getStrIngredient19().equals("")) {
+            builder.append("\n" + rd.getStrIngredient19() + " (" + rd.getStrMeasure19() + ")");
+        }
+        if (rd.getStrIngredient20() != null && !rd.getStrIngredient20().equals("")) {
+            builder.append("\n" + rd.getStrIngredient10() + " (" + rd.getStrMeasure20() + ")");
+        }
+        return builder.toString();
     }
 }

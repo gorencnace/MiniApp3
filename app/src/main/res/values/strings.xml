@@ -4,4 +4,7 @@
     <string name="app_title">Mini App 3</string>
     <string name="error_no_recipes_for_ingredient">Sorry, no recipes for this ingredient.</string>
     <string name="error_no_internet">Sorry, could not connect to the server. Please check your internet connection.</string>
+    <string name="ingredients_title">Ingredients</string>
+    <string name="method">Method</string>
+    <string name="desc_uni_logo">uni_logo</string>
 </resources>
