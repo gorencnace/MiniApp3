@@ -93,65 +93,78 @@ public class DetailsActivity extends AppCompatActivity {
     private String ingredientsStringBuild(RecipeDetailsIM rd) {
         StringBuilder builder = new StringBuilder();
         if (rd.getStrIngredient1() != null && !rd.getStrIngredient1().equals("")) {
-            builder.append(rd.getStrIngredient1() + " (" + rd.getStrMeasure1() + ")");
+            builder.append("\u2022 " + rd.getStrIngredient1() + measuresStringBuild(rd.getStrMeasure1()));
         }
         if (rd.getStrIngredient2() != null && !rd.getStrIngredient2().equals("")) {
-            builder.append("\n" + rd.getStrIngredient2() + " (" + rd.getStrMeasure2() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient2() + measuresStringBuild(rd.getStrMeasure2()));
         }
         if (rd.getStrIngredient3() != null && !rd.getStrIngredient3().equals("")) {
-            builder.append("\n" + rd.getStrIngredient3() + " (" + rd.getStrMeasure3() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient3() + measuresStringBuild(rd.getStrMeasure3()));
         }
         if (rd.getStrIngredient4() != null && !rd.getStrIngredient4().equals("")) {
-            builder.append("\n" + rd.getStrIngredient4() + " (" + rd.getStrMeasure4() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient4() + measuresStringBuild(rd.getStrMeasure4()));
         }
         if (rd.getStrIngredient5() != null && !rd.getStrIngredient5().equals("")) {
-            builder.append("\n" + rd.getStrIngredient5() + " (" + rd.getStrMeasure5() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient5() + measuresStringBuild(rd.getStrMeasure5()));
         }
         if (rd.getStrIngredient6() != null && !rd.getStrIngredient6().equals("")) {
-            builder.append("\n" + rd.getStrIngredient6() + " (" + rd.getStrMeasure6() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient6() + measuresStringBuild(rd.getStrMeasure6()));
         }
         if (rd.getStrIngredient7() != null && !rd.getStrIngredient7().equals("")) {
-            builder.append("\n" + rd.getStrIngredient7() + " (" + rd.getStrMeasure7() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient7() + measuresStringBuild(rd.getStrMeasure7()));
         }
         if (rd.getStrIngredient8() != null && !rd.getStrIngredient8().equals("")) {
-            builder.append("\n" + rd.getStrIngredient8() + " (" + rd.getStrMeasure8() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient8() + measuresStringBuild(rd.getStrMeasure8()));
         }
         if (rd.getStrIngredient9() != null && !rd.getStrIngredient9().equals("")) {
-            builder.append("\n" + rd.getStrIngredient9() + " (" + rd.getStrMeasure9() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient9() + measuresStringBuild(rd.getStrMeasure9()));
         }
         if (rd.getStrIngredient10() != null && !rd.getStrIngredient10().equals("")) {
-            builder.append("\n" + rd.getStrIngredient10() + " (" + rd.getStrMeasure10() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient10() + measuresStringBuild(rd.getStrMeasure10()));
         }
         if (rd.getStrIngredient11() != null && !rd.getStrIngredient11().equals("")) {
-            builder.append("\n" + rd.getStrIngredient11() + " (" + rd.getStrMeasure11() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient11() + measuresStringBuild(rd.getStrMeasure11()));
         }
         if (rd.getStrIngredient12() != null && !rd.getStrIngredient12().equals("")) {
-            builder.append("\n" + rd.getStrIngredient12() + " (" + rd.getStrMeasure12() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient12() + measuresStringBuild(rd.getStrMeasure12()));
         }
         if (rd.getStrIngredient13() != null && !rd.getStrIngredient13().equals("")) {
-            builder.append("\n" + rd.getStrIngredient13() + " (" + rd.getStrMeasure13() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient13() + measuresStringBuild(rd.getStrMeasure13()));
         }
         if (rd.getStrIngredient14() != null && !rd.getStrIngredient14().equals("")) {
-            builder.append("\n" + rd.getStrIngredient14() + " (" + rd.getStrMeasure14() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient14() + measuresStringBuild(rd.getStrMeasure14()));
         }
         if (rd.getStrIngredient15() != null && !rd.getStrIngredient15().equals("")) {
-            builder.append("\n" + rd.getStrIngredient15() + " (" + rd.getStrMeasure15() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient15() + measuresStringBuild(rd.getStrMeasure15()));
         }
         if (rd.getStrIngredient16() != null && !rd.getStrIngredient16().equals("")) {
-            builder.append("\n" + rd.getStrIngredient16() + " (" + rd.getStrMeasure16() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient16() + measuresStringBuild(rd.getStrMeasure16()));
         }
         if (rd.getStrIngredient17() != null && !rd.getStrIngredient17().equals("")) {
-            builder.append("\n" + rd.getStrIngredient17() + " (" + rd.getStrMeasure17() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient17() + measuresStringBuild(rd.getStrMeasure17()));
         }
         if (rd.getStrIngredient18() != null && !rd.getStrIngredient18().equals("")) {
-            builder.append("\n" + rd.getStrIngredient18() + " (" + rd.getStrMeasure18() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient18() + measuresStringBuild(rd.getStrMeasure18()));
         }
         if (rd.getStrIngredient19() != null && !rd.getStrIngredient19().equals("")) {
-            builder.append("\n" + rd.getStrIngredient19() + " (" + rd.getStrMeasure19() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient19() + measuresStringBuild(rd.getStrMeasure19()));
         }
         if (rd.getStrIngredient20() != null && !rd.getStrIngredient20().equals("")) {
-            builder.append("\n" + rd.getStrIngredient10() + " (" + rd.getStrMeasure20() + ")");
+            builder.append("\n\u2022 " + rd.getStrIngredient10() + measuresStringBuild(rd.getStrMeasure20()));
         }
         return builder.toString();
+    }
+
+    // measure builder (not all recipes have measure attribute)
+    private String measuresStringBuild(String measure) {
+        if (measure != null) {
+            while (measure.endsWith(" ")) {
+                measure = measure.substring(0, measure.length()-1);
+            }
+            if (!measure.equals("")) {
+                return "  (" + measure + ")";
+            }
+        }
+        return "";
     }
 }

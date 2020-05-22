@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/progress_bar_search_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:layout_constraintBottom_toBottomOf="@+id/swipe_refresh_layout_search_fragment"
-        app:layout_constraintStart_toStartOf="@+id/swipe_refresh_layout_search_fragment"
-        app:layout_constraintTop_toTopOf="@+id/swipe_refresh_layout_search_fragment"
-        app:layout_constraintEnd_toEndOf="@+id/swipe_refresh_layout_search_fragment"/>
-
     <Spinner
         android:id="@+id/spinner_search_fragment"
         android:layout_width="match_parent"
@@ -39,5 +29,15 @@
             android:layout_height="match_parent"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/progress_bar_search_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="@+id/swipe_refresh_layout_search_fragment"
+        app:layout_constraintStart_toStartOf="@+id/swipe_refresh_layout_search_fragment"
+        app:layout_constraintTop_toTopOf="@+id/swipe_refresh_layout_search_fragment"
+        app:layout_constraintEnd_toEndOf="@+id/swipe_refresh_layout_search_fragment"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
